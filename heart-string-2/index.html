@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Heart String</title>
+<meta name="description" content="Play chords with your hands." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<canvas id="aura-canvas"></canvas>
+<video id="webcam" autoplay playsinline muted></video>
+
+<div id="hud">
+  <div id="brand">Heart String</div>
+
+  <select id="key-select" class="dropdown">
+    <option value="C">C</option>
+    <option value="C#">C#</option>
+    <option value="D">D</option>
+    <option value="D#">D#</option>
+    <option value="E">E</option>
+    <option value="F">F</option>
+    <option value="F#">F#</option>
+    <option value="G">G</option>
+    <option value="G#">G#</option>
+    <option value="A">A</option>
+    <option value="A#">A#</option>
+    <option value="B">B</option>
+  </select>
+
+  <div id="chord-readout" class="hidden">
+    <div id="chord-roman">—</div>
+    <div id="chord-letter"></div>
+  </div>
+
+  <div id="intro" class="overlay">
+    <div class="intro-card">
+      <div class="intro-title">Heart String</div>
+      <p class="intro-copy">
+        Show fingers on your left hand to play a chord — one finger for the
+        first, all five for the fifth. A shaka plays the sixth. Thumb, index,
+        and pinky out plays the seventh.
+      </p>
+      <p class="intro-copy">
+        Tilt that hand left to slip into minor.
+      </p>
+      <p class="intro-copy">
+        Raise your right hand to pulse the chord — lower it for one steady tone.
+      </p>
+      <p class="intro-copy">
+        Pick a key above, then begin.
+      </p>
+      <button id="begin-btn" class="pill-btn">Begin</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/tone/build/Tone.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+
+<script src="music-theory.js"></script>
+<script src="hands.js"></script>
+<script src="audio-engine.js"></script>
+<script src="visualizer.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
