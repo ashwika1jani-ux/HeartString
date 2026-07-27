@@ -1,8 +1,8 @@
 // hands.js
-// Wraps MediaPipe Hands. As before, hands are assigned by their position on
-// the mirrored screen ("screenLeft" / "screenRight") rather than trusting
-// MediaPipe's own handedness label, since that's simpler to reason about
-// once the preview is mirrored for a natural selfie view.
+// Wraps MediaPipe Hands. There's no video shown on screen in this app —
+// only the abstract skeleton drawing — so "screenLeft"/"screenRight" are
+// assigned to match the player's own physical left/right hand, based on
+// raw camera position.
 //
 // screenLeft hand: shapes fingers into a chord degree (1-7) and can tilt
 // to force that chord minor.
@@ -60,15 +60,16 @@ const HandTracker = (() => {
     return null;
   }
 
-  // Positive return = tilted toward the screen-LEFT on the mirrored preview.
+  // Positive return = tilted toward the player's actual left.
   function tiltAngle(landmarks) {
     const wrist = landmarks[0];
     const middleMcp = landmarks[9];
     const dx = middleMcp.x - wrist.x;
     const dy = middleMcp.y - wrist.y;
-    // Raw camera x is mirrored relative to what the player sees, so a
-    // positive raw dx corresponds to an apparent left-ward tilt on screen.
-    return Math.atan2(dx, -dy);
+    // Smaller raw x is the player's left (matching the same convention used
+    // to assign screenLeft/screenRight above), so leaning toward smaller x
+    // is a leftward tilt.
+    return Math.atan2(-dx, -dy);
   }
 
   function processResults(results) {
@@ -88,11 +89,11 @@ const HandTracker = (() => {
     found.sort((a, b) => a.x - b.x);
 
     if (found.length === 1) {
-      if (found[0].x < 0.5) state.screenRight = found[0];
-      else state.screenLeft = found[0];
+      if (found[0].x < 0.5) state.screenLeft = found[0];
+      else state.screenRight = found[0];
     } else {
-      state.screenRight = found[0];
-      state.screenLeft = found[found.length - 1];
+      state.screenLeft = found[0];
+      state.screenRight = found[found.length - 1];
     }
 
     // --- left hand: chord shape + tilt ---
